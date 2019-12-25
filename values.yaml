@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: rbwsam/dods
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -20,19 +20,21 @@ serviceAccount:
   name:
 
 podSecurityContext: {}
-  # fsGroup: 2000
+# fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  runAsNonRoot: true
   # capabilities:
   #   drop:
   #   - ALL
   # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
   # runAsUser: 1000
 
 service:
   type: ClusterIP
-  port: 80
+  ports:
+    rcon: 27015
+    gameplay: 27015
 
 ingress:
   enabled: false

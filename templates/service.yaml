@@ -7,9 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - name: rcon
+      targetPort: rcon
       protocol: TCP
-      name: http
+      port: {{ .Values.service.ports.rcon }}
+    - name: gameplay
+      targetPort: gameplay
+      protocol: UDP
+      port: {{ .Values.service.ports.gameplay }}
   selector:
     {{- include "dods.selectorLabels" . | nindent 4 }}
