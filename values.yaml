@@ -8,6 +8,8 @@ image:
   repository: rbwsam/dods
   pullPolicy: IfNotPresent
 
+args: ["+hostname", "DODs Server", "+map", "dod_avalanche", "+maxplayers", "10", "+rcon_password", "superSecret99"]
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -22,12 +24,12 @@ serviceAccount:
 podSecurityContext: {}
 # fsGroup: 2000
 
-securityContext:
-  runAsNonRoot: true
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
   # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
   # runAsUser: 1000
 
 service:
@@ -44,7 +46,6 @@ ingress:
   hosts:
     - host: chart-example.local
       paths: []
-  tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
