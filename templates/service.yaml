@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "dods.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  clusterIP: None
   ports:
     - name: rcon
       targetPort: rcon
@@ -13,6 +13,25 @@ spec:
       port: {{ .Values.service.ports.rcon }}
     - name: gameplay
       targetPort: gameplay
+      protocol: UDP
+      port: {{ .Values.service.ports.gameplay }}
+  selector:
+    {{- include "dods.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dods.fullname" . }}-external
+  labels:
+    {{- include "dods.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local
+  ports:
+    - name: rcon
+      protocol: TCP
+      port: {{ .Values.service.ports.rcon }}
+    - name: gameplay
       protocol: UDP
       port: {{ .Values.service.ports.gameplay }}
   selector:

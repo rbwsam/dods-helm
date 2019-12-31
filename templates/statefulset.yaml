@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "dods.fullname" . }}
+  labels:
+    {{- include "dods.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "dods.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "dods.fullname" . }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "dods.selectorLabels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          args: {{- range .Values.args }}
+            - {{ . | quote }}
+          {{- end }}
+          ports:
+            - name: rcon
+              containerPort: 27015
+              protocol: TCP
+            - name: gameplay
+              containerPort: 27015
+              protocol: UDP
