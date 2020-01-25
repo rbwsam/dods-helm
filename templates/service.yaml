@@ -10,11 +10,11 @@ spec:
     - name: rcon
       targetPort: rcon
       protocol: TCP
-      port: {{ .Values.service.ports.rcon }}
+      port: {{ .Values.ports.rcon }}
     - name: gameplay
       targetPort: gameplay
       protocol: UDP
-      port: {{ .Values.service.ports.gameplay }}
+      port: {{ .Values.ports.gameplay }}
   selector:
     {{- include "dods.selectorLabels" . | nindent 4 }}
 ---
@@ -30,9 +30,9 @@ spec:
   ports:
     - name: rcon
       protocol: TCP
-      port: {{ .Values.service.ports.rcon }}
+      port: {{ .Values.ports.rcon }}
     - name: gameplay
       protocol: UDP
-      port: {{ .Values.service.ports.gameplay }}
+      port: {{ .Values.ports.gameplay }}
   selector:
     {{- include "dods.selectorLabels" . | nindent 4 }}

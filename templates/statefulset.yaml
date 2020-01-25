@@ -19,13 +19,23 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
-          args: {{- range .Values.args }}
-            - {{ . | quote }}
-          {{- end }}
+          args:
+            - "+port"
+            - "{{ .Values.ports.gameplay }}"
+            - "+rcon_port"
+            - "{{ .Values.ports.rcon }}"
+            - "+hostname"
+            - "{{ .Values.config.hostname }}"
+            - "+map"
+            - "{{ .Values.config.map }}"
+            - "+maxplayers"
+            - "{{ .Values.config.maxplayers }}"
+            - "+rcon_password"
+            - "{{ .Values.config.rcon_password }}"
           ports:
             - name: rcon
-              containerPort: 27015
+              containerPort: {{ .Values.ports.rcon }}
               protocol: TCP
             - name: gameplay
-              containerPort: 27015
+              containerPort: {{ .Values.ports.gameplay }}
               protocol: UDP
